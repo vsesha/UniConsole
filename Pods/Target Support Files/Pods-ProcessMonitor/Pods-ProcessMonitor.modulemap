@@ -1,0 +1,6 @@
+framework module Pods_ProcessMonitor {
+  umbrella header "Pods-ProcessMonitor-umbrella.h"
+
+  export *
+  module * { export * }
+}
