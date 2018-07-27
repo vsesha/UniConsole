@@ -11,6 +11,11 @@ import AWSCognito
 import AWSLambda
 
 
+struct QnAStruct {
+    var questionText: String
+    var AnswerText: String
+    var hasChart:Bool
+}
 
 class ViewController: UIViewController, UIGestureRecognizerDelegate {
   
@@ -25,9 +30,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var progressBar:         UIProgressView!
     
-    var m_keyboardHeight          = 0.0
-    var speechCtrl              = SpeechController()
-    var botCommunicationMgr     = BotCommunicationManager()
+    @IBOutlet weak var ChatBotTableView:    UITableView!
+    
+
+    
+    var m_keyboardHeight            = 0.0
+    var speechCtrl                  = SpeechController()
+    var botCommunicationMgr         = BotCommunicationManager()
+    
+    var QnAArray:[QnAStruct] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,12 +70,17 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         microphoneButton.addGestureRecognizer(longPressGesture)
         
         initilizeAWSLambdaConnections()
+        ChatBotTableView.dataSource = self
+        ChatBotTableView.estimatedRowHeight = 80
+        ChatBotTableView.rowHeight = UITableViewAutomaticDimension
+        ChatBotTableView.tableFooterView = UIView(frame: CGRect.zero)
         
     }
 
    
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self, forKeyPath: NSNotification.Name.UIKeyboardWillShow.rawValue)
+
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
    
 
@@ -287,6 +303,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         answerTextView.text = answerTextView.text + "User: "
         answerTextView.text = answerTextView.text + questionTextView.text!
         
+        addQnAtoTableView()
+        
         sendToBot()
         
     }
@@ -355,8 +373,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func sendToBot(){
         do{
             var userQuery = questionTextView.text
+            //addQnAtoTableView()
             try botCommunicationMgr.sendRequestToProcessManagerBOT(queryString: userQuery!,
                                                                    botResponseLabel: answerTextView)
+            
         }
         catch let exception as NSException{
             print ("exception = \(exception)")
@@ -364,6 +384,29 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         catch let error as NSError{
             print ("error = \(error)")
         }
+    }
+    
+    
+    func addQnAtoTableView(){
+        
+        //here
+        var qnastruct = QnAStruct(questionText: "",AnswerText: "",hasChart: false)
+        
+        qnastruct.questionText      = questionTextView.text!
+        qnastruct.AnswerText        = "Getting response..."
+        qnastruct.hasChart          = true
+        print("qnastruct = \(qnastruct)")
+        
+        print("1")
+        QnAArray.append(qnastruct)
+        print("2")
+        var indexpath:IndexPath
+        indexpath = IndexPath(item: QnAArray.count - 1 , section: 0)
+        
+ 
+        print("3 - indexpath = \(indexpath)")
+        ChatBotTableView.insertRows(at: [indexpath], with: .bottom)
+        print("4")
     }
     
     @objc func delegateNotification(_ notification:NSNotification){
@@ -391,7 +434,25 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
        
 
     }
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return QnAArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = ChatBotTableView.dequeueReusableCell(withIdentifier: "ChatBotTabelViewCell") as! ChatBotTabelViewCell
+        var data:QnAStruct =  QnAArray[indexPath.row]
+        cell.s_UserQuestion.text = data.questionText
+        cell.s_botResponse.text  = data.AnswerText
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
     
 }
+
 
 

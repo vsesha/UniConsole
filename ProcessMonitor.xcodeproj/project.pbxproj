@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E2D0577206ACBD3008C4E9C /* InfrastructureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2D0576206ACBD3008C4E9C /* InfrastructureHandler.swift */; };
+		3E34610521012DC400A7D721 /* ChatBotTabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E34610421012DC400A7D721 /* ChatBotTabelViewCell.swift */; };
 		3E3B2FF72007DCAE0015E7EF /* SpeechToText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3B2FF62007DCAE0015E7EF /* SpeechToText.swift */; };
 		3E3B2FF92007E0800015E7EF /* SpeakMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3B2FF82007E0800015E7EF /* SpeakMessages.swift */; };
 		3E3B2FFB2007E0CF0015E7EF /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3B2FFA2007E0CF0015E7EF /* GlobalVariables.swift */; };
@@ -35,6 +36,7 @@
 		2A841A26024FF02DBEC5EEBE /* Pods-ProcessMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProcessMonitor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProcessMonitor/Pods-ProcessMonitor.debug.xcconfig"; sourceTree = "<group>"; };
 		3B9BC559BF8A93CF09B34B2A /* Pods-ProcessMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProcessMonitor.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProcessMonitor/Pods-ProcessMonitor.release.xcconfig"; sourceTree = "<group>"; };
 		3E2D0576206ACBD3008C4E9C /* InfrastructureHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfrastructureHandler.swift; sourceTree = "<group>"; };
+		3E34610421012DC400A7D721 /* ChatBotTabelViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotTabelViewCell.swift; sourceTree = "<group>"; };
 		3E3B2FF62007DCAE0015E7EF /* SpeechToText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToText.swift; sourceTree = "<group>"; };
 		3E3B2FF82007E0800015E7EF /* SpeakMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakMessages.swift; sourceTree = "<group>"; };
 		3E3B2FFA2007E0CF0015E7EF /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				3E40CA9120094DBD007344FC /* SettingsViewController.swift */,
 				3E836A4D2004082F00748F15 /* ViewController.swift */,
+				3E34610421012DC400A7D721 /* ChatBotTabelViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				3E85CFA5202E30DE006589B0 /* BoxHealthCpuAndMemoryHandler.swift in Sources */,
 				3E40CA9420095AB5007344FC /* BotCommunication.swift in Sources */,
 				3E3B2FF72007DCAE0015E7EF /* SpeechToText.swift in Sources */,
+				3E34610521012DC400A7D721 /* ChatBotTabelViewCell.swift in Sources */,
 				3E40CA9620095B12007344FC /* BotActions.swift in Sources */,
 				3E836A4E2004082F00748F15 /* ViewController.swift in Sources */,
 				3EB9665920100DD700AC5C26 /* ProcessStatusHandler.swift in Sources */,

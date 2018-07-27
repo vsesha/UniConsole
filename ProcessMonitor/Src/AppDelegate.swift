@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             configuration.clientAccessToken     = GLOBAL_GOOGLE_APIAI_CLIENT_TOKEN
             let apiai = ApiAI.shared()
             apiai?.configuration = configuration
-        sleep(5)
+        //sleep(5)
         return true
     }
 
