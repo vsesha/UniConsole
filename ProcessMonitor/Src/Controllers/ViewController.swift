@@ -11,12 +11,6 @@ import AWSCognito
 import AWSLambda
 
 
-struct QnAStruct {
-    var questionText: String
-    var AnswerText: String
-    var hasChart:Bool
-}
-
 class ViewController: UIViewController, UIGestureRecognizerDelegate {
   
 

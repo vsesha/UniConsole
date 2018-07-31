@@ -27,6 +27,7 @@
 		3EB9665920100DD700AC5C26 /* ProcessStatusHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB9665820100DD700AC5C26 /* ProcessStatusHandler.swift */; };
 		3EB9665B2013D83000AC5C26 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB9665A2013D83000AC5C26 /* GlobalFunctions.swift */; };
 		3ECAADB1203CE39B00EAAB52 /* BusinessActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECAADB0203CE39B00EAAB52 /* BusinessActionHandler.swift */; };
+		3EEF2EEB2110D2B400A819DB /* QnAModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEF2EEA2110D2B400A819DB /* QnAModel.swift */; };
 		3EFE087F201B92A300F9601A /* BotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFE087E201B92A300F9601A /* BotHelper.swift */; };
 		3EFE9DBD2029070F00F63872 /* AWSResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFE9DBC2029070F00F63872 /* AWSResponseHandler.swift */; };
 		8ACDD41A031160B48F67C144 /* Pods_ProcessMonitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A24F4A2DCAEC8FFD171254 /* Pods_ProcessMonitor.framework */; };
@@ -58,6 +59,7 @@
 		3EB9665820100DD700AC5C26 /* ProcessStatusHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessStatusHandler.swift; sourceTree = "<group>"; };
 		3EB9665A2013D83000AC5C26 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		3ECAADB0203CE39B00EAAB52 /* BusinessActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessActionHandler.swift; sourceTree = "<group>"; };
+		3EEF2EEA2110D2B400A819DB /* QnAModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAModel.swift; sourceTree = "<group>"; };
 		3EFE087E201B92A300F9601A /* BotHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotHelper.swift; sourceTree = "<group>"; };
 		3EFE9DBC2029070F00F63872 /* AWSResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSResponseHandler.swift; sourceTree = "<group>"; };
 		82A24F4A2DCAEC8FFD171254 /* Pods_ProcessMonitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProcessMonitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				3E836A522004082F00748F15 /* ProcessMonitor.xcdatamodeld */,
+				3EEF2EEA2110D2B400A819DB /* QnAModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EEF2EEB2110D2B400A819DB /* QnAModel.swift in Sources */,
 				3EB9665B2013D83000AC5C26 /* GlobalFunctions.swift in Sources */,
 				3E3B2FFB2007E0CF0015E7EF /* GlobalVariables.swift in Sources */,
 				3E40CA9220094DBD007344FC /* SettingsViewController.swift in Sources */,
