@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol ChatBotTabelViewCellDelegate: class {
+    func deleteRow (sender: ChatBotTabelViewCell)
+    func shareRowData (sender: ChatBotTabelViewCell)
+}
+
 class ChatBotTabelViewCell: UITableViewCell {
 
     @IBOutlet weak var s_AssistantLabel:    UILabel!
@@ -16,6 +21,8 @@ class ChatBotTabelViewCell: UITableViewCell {
     @IBOutlet weak var s_YouLabel:          UILabel!
     @IBOutlet weak var s_UserQuestion:      UILabel!
 
+    weak var delegate: ChatBotTabelViewCellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -43,14 +50,23 @@ class ChatBotTabelViewCell: UITableViewCell {
         s_botResponse.layer.shadowOffset = CGSizeFromString("1")
         s_botResponse.layer.shadowRadius = 4
         s_botResponse.layer.masksToBounds = true
-        s_botResponse.layer.cornerRadius = 4
+        s_botResponse.layer.cornerRadius = 6
        
         
         s_UserQuestion.layer.shadowOpacity = 0.4
         s_UserQuestion.layer.shadowOffset = CGSizeFromString("1")
         s_UserQuestion.layer.shadowRadius = 4
         s_UserQuestion.layer.masksToBounds = true
-        s_UserQuestion.layer.cornerRadius = 4
+        s_UserQuestion.layer.cornerRadius = 6
     }
-
+    
+    @IBAction func DeleteThisRow(_ sender: UIButton) {
+        delegate?.deleteRow(sender: self)
+    }
+    
+    @IBAction func shareThisRow(_ sender: UIButton) {
+        delegate?.shareRowData(sender: self)
+    }
+    
+    
 }

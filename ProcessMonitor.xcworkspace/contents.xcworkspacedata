@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:ProcessMonitor/Src/Controllers/ChartLookUpViewController.swift">
+   </FileRef>
+   <FileRef
       location = "group:ProcessMonitor.xcodeproj">
    </FileRef>
    <FileRef

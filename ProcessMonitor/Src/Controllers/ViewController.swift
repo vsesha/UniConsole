@@ -15,7 +15,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
   
 
     @IBOutlet weak var questionTextView:    UITextField!
-    @IBOutlet weak var answerTextView:      UITextView!
+    //@IBOutlet weak var answerTextView:      UITextView!
     @IBOutlet weak var sendToBotButton:     UIButton!
     @IBOutlet weak var microphoneButton:    UIButton!
     @IBOutlet weak var clearButton:         UIButton!
@@ -27,7 +27,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var ChatBotTableView:    UITableView!
     
 
-    
+    var m_questionIndex             = 1
     var m_keyboardHeight            = 0.0
     var speechCtrl                  = SpeechController()
     var botCommunicationMgr         = BotCommunicationManager()
@@ -68,7 +68,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         ChatBotTableView.estimatedRowHeight = 80
         ChatBotTableView.rowHeight = UITableViewAutomaticDimension
         ChatBotTableView.tableFooterView = UIView(frame: CGRect.zero)
-        
+        ChatBotTableView.contentInset.top = 10
     }
 
    
@@ -88,13 +88,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         print("Creating AWS Cognito Credentials Provider")
         let credentialsProvider = AWSCognitoCredentialsProvider(regionType:  AWSRegionType.usEast2,
                                                                 identityPoolId: "us-east-2:e565545e-44ca-4557-baa5-56eb6e9f68ac")
-       /* let provider = credentialsProvider.identityProvider
-        let finalCredProvider = AWSCognitoCredentialsProvider.init(regionType: AWSRegionType.usEast2,
-                                                                   unauthRoleArn: "arn:aws:iam::440497887274:role/ALLOW_LAMBDA_EXECUTION",
-                                                                   authRoleArn: "arn:aws:iam::440497887274:role/lambda_execution",
-                                           identityProvider: provider)*/
-        
-        //let credentialsProvider = AWSCognitoCredentialsProvider.init(regionType: AWSRegionType.usEast2, identityPoolId: "us-east-2:e565545e-44ca-4557-baa5-56eb6e9f68ac")
+
         
         
         print("Creating a default AWSservice configuration for unauthenticated user")
@@ -115,11 +109,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         questionTextView.layer.masksToBounds = false
         questionTextView.layer.cornerRadius = 4
         
-        answerTextView.layer.shadowOpacity = 0.4
-        answerTextView.layer.shadowOffset = CGSizeFromString("1")
-        answerTextView.layer.shadowRadius = 4
-        answerTextView.layer.masksToBounds = false
-        answerTextView.layer.cornerRadius = 4
         
         sendToBotButton.layer.shadowOpacity = 0.4
         sendToBotButton.layer.shadowOffset = CGSizeFromString("1")
@@ -144,6 +133,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         helpButton.layer.shadowRadius = 4
         helpButton.layer.masksToBounds = false
         helpButton.layer.cornerRadius = 4
+        
+        ChatBotTableView.layer.shadowOpacity = 0.4
+        ChatBotTableView.layer.shadowOffset = CGSizeFromString("1")
+        ChatBotTableView.layer.shadowRadius = 4
+        ChatBotTableView.layer.masksToBounds = false
+        ChatBotTableView.layer.cornerRadius = 4
         
         progressBar.layer.shadowOpacity = 0.4
         progressBar.layer.shadowRadius = 4
@@ -224,14 +219,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         updateProgressBar(progress: 0.0)
         questionTextView.text = "Help Me"
         EndEditingAndHideKeyBoard()
-        if (!answerTextView.text.isEmpty) {
-            answerTextView.text = answerTextView.text + "\r \n"
-            
-        }
-        answerTextView.text = answerTextView.text + "User: "
-        answerTextView.text = answerTextView.text + questionTextView.text!
-
-        sendToBot()
+        sendToBot_new()
     }
     
     @IBAction func speakerTouch(_ sender: Any) {
@@ -283,93 +271,30 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
 
     @IBAction func clearButtonPressed(_ sender: Any) {
-        answerTextView.text = ""
+        deleteTableData()
     }
  
+    func deleteTableData(){
+        QnAArray.removeAll()
+        ChatBotTableView.reloadData()
+        m_questionIndex = 1
+    }
     
     @IBAction func sendToBotButtonPrssed(_ sender: Any) {
         EndEditingAndHideKeyBoard()
         updateProgressBar(progress: 0.25)
-        if (!answerTextView.text.isEmpty) {
-            answerTextView.text = answerTextView.text + "\r \n"
-            
-        }
-        answerTextView.text = answerTextView.text + "User: "
-        answerTextView.text = answerTextView.text + questionTextView.text!
-        
         addQnAtoTableView()
-        
-        sendToBot()
-        
     }
 
-  
-    
-    func invokeLambdaFunction(){
-        
-        //collect name
-        let processName = "GCLR"
-        
-        //invoke lambda function asynchronously
-        NSLog("Invoking lambda default  for Process Name =\(processName)")
-        let lambdaInvoker = AWSLambdaInvoker.default()
-        
-        NSLog("now trying to invoke")
-        let task = lambdaInvoker.invokeFunction("TestLambdaFunction", jsonObject: ["processName":processName])
-        //let task = lambdaInvoker.invokeFunction("ProcessStatus", jsonObject: nil)
-        
-        task.continue({ (task: AWSTask!) -> AWSTask<AnyObject>! in
-            
-            if (task.error != nil) {
-                NSLog("Invoke Lambda returned an error : \(task.error)")
-                //NSLog("Invoke Lambda returned an error : \(task.error)")
-                
-            } else {
-                if (task.result != nil) {
-                    //NSLog("Invoke Lambda : result = \(task.result)")
-                    /*
-                     //upate text label on the main UI thread
-                     let r = task.result as! Dictionary<String,String>
-                     print("1")
-                     let msg = r["PROCESS_NAME"]
-                     print("2")
-                     let box = r["BOX"]
-                     print("3")
-                     print("Process Name  = \(msg)")
-                     print("Box =\(box)")
-                     */
-                    
-                    // var data = task.result as! NSDictionary
-                    
-                    /* var data = task.result as! Any
-                     
-                     let responseJSON = try? JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary*/
-                    
-                    
-                    //var data:AWSJSONResponseSerializer = task.result as! AWSJSONResponseSerializer
-                    
-                    
-                    
-                    
-                    
-                } else {
-                    NSLog("Invoke Lambda : unknow result : \(task)");
-                    NSLog("Exception : \(task.exception)")
-                    NSLog("Error : \(task.error)" )
-                }
-            }
-            return nil
-        })
-        
-        
-    }
-    
-    @objc func sendToBot(){
+    @objc func sendToBot_new(){
         do{
             var userQuery = questionTextView.text
-            //addQnAtoTableView()
-            try botCommunicationMgr.sendRequestToProcessManagerBOT(queryString: userQuery!,
-                                                                   botResponseLabel: answerTextView)
+            try botCommunicationMgr.sendRequestToProcessManagerBOT_new(queryString: userQuery!, completion:{ (result:String) ->() in
+                    print("Response from BOT = \(result)")
+                self.reloadAnswer(answer: result)
+             
+                }
+            )
             
         }
         catch let exception as NSException{
@@ -383,24 +308,31 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func addQnAtoTableView(){
         
-        //here
-        var qnastruct = QnAStruct(questionText: "",AnswerText: "",hasChart: false)
+        var qnastruct = QnAStruct()
         
         qnastruct.questionText      = questionTextView.text!
-        qnastruct.AnswerText        = "Getting response..."
-        qnastruct.hasChart          = true
-        print("qnastruct = \(qnastruct)")
-        
-        print("1")
-        QnAArray.append(qnastruct)
-        print("2")
-        var indexpath:IndexPath
-        indexpath = IndexPath(item: QnAArray.count - 1 , section: 0)
-        
+        qnastruct.AnswerText        = "..."
  
-        print("3 - indexpath = \(indexpath)")
+        qnastruct.hasChart          = true
+        QnAArray.append(qnastruct)
+        m_questionIndex = QnAArray.count
+     
+        var indexpath:IndexPath
+        indexpath = IndexPath(item: m_questionIndex - 1 , section: 0)
+        
         ChatBotTableView.insertRows(at: [indexpath], with: .bottom)
-        print("4")
+        scrollToBottom()
+        sendToBot_new()
+    }
+  
+    func reloadAnswer (answer:String){
+        var qnastruct = self.QnAArray[self.m_questionIndex - 1]
+        qnastruct.AnswerText = answer
+        
+        var indexpath:IndexPath
+        indexpath = IndexPath(item: self.m_questionIndex - 1 , section: 0)
+        self.ChatBotTableView.reloadRows(at: [indexpath], with: .right)
+        scrollToBottom()
     }
     
     @objc func delegateNotification(_ notification:NSNotification){
@@ -418,35 +350,40 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             break
         
         default:
-            
-            answerTextView.text = answerTextView.text + "\nAssistant: "
-            answerTextView.text = answerTextView.text + notifyMsg.NotifyMessage!
+            reloadAnswer(answer: notifyMsg.NotifyMessage!)
             updateProgressBar(progress: 1.0)
             break
         }
+    }
+    
+    func scrollToBottom(){
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.QnAArray.count-1, section: 0)
+            self.ChatBotTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+
+
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("segue = \(segue)")
+        print("Identifier = \(segue.identifier)")
+            
+        /*{
+            let cell        = sender as! UITableViewCell
+            //let cell        = sender as! ChatBotTabelViewCell
+            //print("qustion = \(cell.s_UserQuestion.text)")
+            let indexpath   = self.ChatBotTableView.indexPath(for: cell)
         
-       
-
-    }
-}
-
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return QnAArray.count
+            let selectedCellData = ChatBotTableView.cellForRow(at: indexpath!)
+            print("selectedCellData =  \(selectedCellData)")
+        }*/
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = ChatBotTableView.dequeueReusableCell(withIdentifier: "ChatBotTabelViewCell") as! ChatBotTabelViewCell
-        var data:QnAStruct =  QnAArray[indexPath.row]
-        cell.s_UserQuestion.text = data.questionText
-        cell.s_botResponse.text  = data.AnswerText
-        return cell
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
+
 }
+
+
 
 
 
