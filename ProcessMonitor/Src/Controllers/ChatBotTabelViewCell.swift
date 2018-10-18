@@ -6,6 +6,9 @@
 //  Copyright © 2018 Vasudevan Seshadri. All rights reserved.
 //
 
+
+//EBEBEB grey
+//007AFF blue
 import UIKit
 
 protocol ChatBotTabelViewCellDelegate: class {
