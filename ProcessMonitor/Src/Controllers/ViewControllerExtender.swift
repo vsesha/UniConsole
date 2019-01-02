@@ -21,7 +21,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, ChatBotTab
         var data:QnAStruct =  QnAArray[indexPath.row]
         cell.s_UserQuestion.text = data.questionText
         cell.s_botResponse.text  = data.AnswerText
-        cell.s_ChartButton.isHidden = !(data.getHasChart())
+        //cell.s_ChartButton.isHidden = !(data.getHasChart())
         cell.delegate = self
         return cell
     }
@@ -55,9 +55,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, ChatBotTab
 
     
     func shareRowData(sender: ChatBotTabelViewCell) {
-        let text = "sample text"
+        var shareText = "sample text"
         
-        let vc = UIActivityViewController(activityItems: [text], applicationActivities: [])
+        let indexPath = self.ChatBotTableView.indexPath(for: sender)
+        var data:QnAStruct =  QnAArray[indexPath!.row]
+        
+        shareText = "You:" +  data.questionText!
+        shareText += "\n"
+        shareText += "Answer:" + data.AnswerText!
+        
+        
+        let vc = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
         if let popoverController = vc.popoverPresentationController{
             popoverController.sourceView = self.view
             popoverController.sourceRect = self.view.bounds
@@ -66,6 +74,19 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, ChatBotTab
         
     }
     
+    func FeedThisDataRow (sender: ChatBotTabelViewCell) {
+        let FeedViewController:DetailsViewController = storyboard?.instantiateViewController(withIdentifier: "DetailedView") as! DetailsViewController
+        
+        let indexPath = self.ChatBotTableView.indexPath(for: sender)
+        let data:QnAStruct =  QnAArray[indexPath!.row]
+        
+        FeedViewController.dataNode.question = data.questionText!
+        FeedViewController.dataNode.answer = data.AnswerText!
+        FeedViewController.dataNode.additionalParams = "No additional params"
+
+        
+        self.present(FeedViewController, animated: true, completion: nil)
+    }
     
     
 }

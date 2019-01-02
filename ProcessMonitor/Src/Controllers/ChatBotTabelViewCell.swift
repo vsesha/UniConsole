@@ -14,13 +14,14 @@ import UIKit
 protocol ChatBotTabelViewCellDelegate: class {
     func deleteRow (sender: ChatBotTabelViewCell)
     func shareRowData (sender: ChatBotTabelViewCell)
+    func FeedThisDataRow (sender: ChatBotTabelViewCell)
 }
 
 class ChatBotTabelViewCell: UITableViewCell {
 
     @IBOutlet weak var s_AssistantLabel:    UILabel!
     @IBOutlet weak var s_botResponse:       UILabel!
-    @IBOutlet weak var s_ChartButton:       UIButton!
+    //@IBOutlet weak var s_ChartButton:       UIButton!
     @IBOutlet weak var s_YouLabel:          UILabel!
     @IBOutlet weak var s_UserQuestion:      UILabel!
 
@@ -42,7 +43,7 @@ class ChatBotTabelViewCell: UITableViewCell {
     
     func InitilizeControls(){
         s_botResponse.text = "How can I help you?"
-        s_ChartButton.isHidden  = true
+        //s_ChartButton.isHidden  = true
         //s_YouLabel.isHidden     = true
         //s_UserQuestion.isHidden = true
         
@@ -72,4 +73,7 @@ class ChatBotTabelViewCell: UITableViewCell {
     }
     
     
+    @IBAction func ConfigureToFeed(_ sender: UIButton) {
+        delegate?.FeedThisDataRow(sender: self)
+    }
 }
